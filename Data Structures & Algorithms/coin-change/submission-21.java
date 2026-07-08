@@ -1,0 +1,30 @@
+class Solution {
+    HashMap<Integer,Integer> map = new HashMap<>();
+    public int coinChange(int[] coins, int amount) {
+        int res = dfs(coins, amount);
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+
+    public int dfs(int[] coins, int amount){
+        if(amount == 0)
+        return 0;
+        if(amount < 0)
+        return 0;
+
+        if(map.containsKey(amount))
+        return map.get(amount);
+
+        int result = Integer.MAX_VALUE;
+
+        for(int c: coins){
+            if(amount-c >= 0){
+                int res = dfs(coins, amount-c);
+                if(res != Integer.MAX_VALUE){
+                    result = Math.min(result, res+1);
+                }
+            }
+        }
+        map.put(amount, result);
+        return result;
+    }
+}
